@@ -14,7 +14,7 @@ if (nimbus_get_option('fp-test-toggle') == '1') { ?>
                     <div class="row">
                         <div class="col-md-3 col-md-offset-1"  data-sr="wait 0.3s, enter left and move 50px after 1s">
                             <div class="test-item">
-                                <img class="img-responsive img-circle frontpage-test-image center-block" src="<?php echo $fp_test_image; ?>" />
+                                <img class="img-responsive frontpage-test-image center-block" src="<?php echo $fp_test_image; ?>" />
                             </div>
                         </div>          
                         <div class="col-md-7"  data-sr="wait 0.3s, enter right and move 50px after 1s">
