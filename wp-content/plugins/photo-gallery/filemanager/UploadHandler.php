@@ -649,7 +649,7 @@ class bwg_UploadHandler {
 
     protected function handle_file_upload($uploaded_file, $name, $size, $type, $error, $index = null, $content_range = null, $path = '') {
       $file = new stdClass();
-      $file->dir  = $this->get_upload_path();
+      $file->dir = $this->get_upload_path();
       $file->path = $path;
       $file->name = $this->get_file_name($name, $type, $index, $content_range);
       $file->size = $this->fix_integer_overflow(intval($size));
@@ -657,20 +657,15 @@ class bwg_UploadHandler {
       if ( $this->validate($uploaded_file, $file, $error, $index) ) {
         $this->handle_form_data($file, $index);
         $upload_dir = $this->get_upload_path();
-        if (!is_dir($upload_dir)) {
-          mkdir($upload_dir, $this->options['mkdir_mode'], true);
+        if ( !is_dir($upload_dir) ) {
+          mkdir($upload_dir, $this->options['mkdir_mode'], TRUE);
         }
         $file_path = $this->get_upload_path($file->name);
-		$append_file = $content_range && is_file($file_path) &&
-		$file->size = $this->get_file_size($file_path);
-        if ($uploaded_file && is_uploaded_file($uploaded_file)) {
+        $append_file = $content_range && is_file($file_path) && $file->size = $this->get_file_size($file_path);
+        if ( $uploaded_file && is_uploaded_file($uploaded_file) ) {
           // multipart/formdata uploads (POST method uploads)
-          if ($append_file) {
-            file_put_contents(
-              $file_path,
-              fopen($uploaded_file, 'r'),
-              FILE_APPEND
-            );
+          if ( $append_file ) {
+            file_put_contents($file_path, fopen($uploaded_file, 'r'), FILE_APPEND);
           }
           else {
             move_uploaded_file($uploaded_file, $file_path);
@@ -678,21 +673,17 @@ class bwg_UploadHandler {
         }
         else {
           // Non-multipart uploads (PUT method support)
-          file_put_contents(
-            $file_path,
-            fopen('php://input', 'r'),
-            $append_file ? FILE_APPEND : 0
-          );
+          file_put_contents($file_path, fopen('php://input', 'r'), $append_file ? FILE_APPEND : 0);
         }
         $file_size = $this->get_file_size($file_path, $append_file);
-        if ($file_size === $file->size) {
-          if ($this->options['max_width'] && $this->options['max_height']) {
+        if ( $file_size === $file->size ) {
+          if ( $this->options['max_width'] && $this->options['max_height'] ) {
             // Upload.
             $this->create_scaled_image($file->name, 'main', $this->options);
           }
           $file->url = $this->get_download_url($file);
           list($img_width, $img_height) = @getimagesize(htmlspecialchars_decode($file_path, ENT_COMPAT | ENT_QUOTES));
-          if (is_int($img_width)) {
+          if ( is_int($img_width) ) {
             $this->handle_image_file($file_path, $file);
           }
           else {
@@ -701,32 +692,31 @@ class bwg_UploadHandler {
         }
         else {
           $file->size = $file_size;
-          if (!$content_range && $this->options['discard_aborted_uploads']) {
+          if ( !$content_range && $this->options['discard_aborted_uploads'] ) {
             unlink($file_path);
             $file->error = 'abort';
           }
         }
-
-		$file->filename = str_replace( "_", " ", substr($file->name, 0, strrpos($file->name, '.')) );
-		$file_ex = explode('.', $file->name);
-		$file->type = strtolower(end($file_ex));
-		$file->thumb = $file->name;
-		$file->size = (int)($file->size / 1024) . ' KB';
-		$image_info = @getimagesize(htmlspecialchars_decode($file->url, ENT_COMPAT | ENT_QUOTES));
-		$file->resolution = $image_info[0]  . ' x ' . $image_info[1] . ' px';
-		$meta = WDWLibrary::read_image_metadata( $file->dir . '/.original/' . $file->name );
-		$file->alt = (BWG()->options->read_metadata && $meta['title']) ? $meta['title'] : str_replace("_", " ", $file->filename);
-		$file->credit = !empty($meta['credit']) ? $meta['credit'] : '';
-		$file->aperture = !empty($meta['aperture']) ? $meta['aperture'] : '';
-		$file->camera = !empty($meta['camera']) ? $meta['camera'] : '';
-		$file->caption = !empty($meta['caption']) ? $meta['caption'] : '';
-		$file->iso = !empty($meta['iso']) ? $meta['iso'] : '';
-		$file->orientation = !empty($meta['orientation']) ? $meta['orientation'] : '';
-		$file->copyright = !empty($meta['copyright']) ? $meta['copyright']: '';
-		$file->tags = !empty($meta['tags']) ? $meta['tags'] : '';
+        $file->filename = str_replace("_", " ", substr($file->name, 0, strrpos($file->name, '.')));
+        $file_ex = explode('.', $file->name);
+        $file->type = strtolower(end($file_ex));
+        $file->thumb = $file->name;
+        $file->size = (int) ($file->size / 1024) . ' KB';
+        $image_info = @getimagesize(htmlspecialchars_decode($file->url, ENT_COMPAT | ENT_QUOTES));
+        $file->resolution = $image_info[0] . ' x ' . $image_info[1] . ' px';
+        $meta = WDWLibrary::read_image_metadata($file->dir . '/.original/' . $file->name);
+        $file->alt = (BWG()->options->read_metadata && $meta['title']) ? $meta['title'] : str_replace("_", " ", $file->filename);
+        $file->credit = !empty($meta['credit']) ? $meta['credit'] : '';
+        $file->aperture = !empty($meta['aperture']) ? $meta['aperture'] : '';
+        $file->camera = !empty($meta['camera']) ? $meta['camera'] : '';
+        $file->caption = !empty($meta['caption']) ? $meta['caption'] : '';
+        $file->iso = !empty($meta['iso']) ? $meta['iso'] : '';
+        $file->orientation = !empty($meta['orientation']) ? $meta['orientation'] : '';
+        $file->copyright = !empty($meta['copyright']) ? $meta['copyright'] : '';
+        $file->tags = !empty($meta['tags']) ? $meta['tags'] : '';
         $this->set_file_delete_properties($file);
-		// $file->date_modified = date('d F Y, H:i');
       }
+
       return $file;
     }
 

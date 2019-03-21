@@ -3,7 +3,7 @@
  * Plugin Name: Photo Gallery
  * Plugin URI: https://10web.io/plugins/wordpress-photo-gallery/
  * Description: This plugin is a fully responsive gallery plugin with advanced functionality.  It allows having different image galleries for your posts and pages. You can create unlimited number of galleries, combine them into albums, and provide descriptions and tags.
- * Version: 1.5.18
+ * Version: 1.5.19
  * Author: Photo Gallery Team
  * Author URI: https://10web.io/plugins/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -81,8 +81,8 @@ final class BWG {
     $this->plugin_dir = WP_PLUGIN_DIR . "/" . plugin_basename(dirname(__FILE__));
     $this->plugin_url = plugins_url(plugin_basename(dirname(__FILE__)));
     $this->main_file = plugin_basename(__FILE__);
-    $this->plugin_version = '1.5.18';
-    $this->db_version = '1.5.18';
+    $this->plugin_version = '1.5.19';
+    $this->db_version = '1.5.19';
     $this->prefix = 'bwg';
     $this->nicename = __('Photo Gallery', $this->prefix);
 
@@ -241,7 +241,10 @@ final class BWG {
   public function robots() {
     if ( isset($this->options->noindex_custom_post) && $this->options->noindex_custom_post ) {
       global $wp;
-      $current_relative_url = trailingslashit(add_query_arg($_SERVER['QUERY_STRING'], '', trailingslashit($wp->request)));
+      $current_relative_url = trailingslashit($wp->request);
+      if ( isset($_SERVER['QUERY_STRING']) ) {
+        $current_relative_url = trailingslashit(add_query_arg($_SERVER['QUERY_STRING'], '', $current_relative_url));
+      }
       if ( strpos($current_relative_url, 'bwg_gallery') !== FALSE
       || strpos($current_relative_url, 'bwg_album') !== FALSE
       || strpos($current_relative_url, 'bwg_tag') !== FALSE ) {
@@ -1350,8 +1353,8 @@ final class BWG {
       'bwg_pause' => __('Pause', $this->prefix),
       'bwg_hide_info' => __('Hide info', $this->prefix),
       'bwg_show_info' => __('Show info', $this->prefix),
-      'bwg_hide_rating' => __('Hide info', $this->prefix),
-      'bwg_show_rating' => __('Show info', $this->prefix),
+      'bwg_hide_rating' => __('Hide rating', $this->prefix),
+      'bwg_show_rating' => __('Show rating', $this->prefix),
       'ok' => __('Ok', $this->prefix),
       'cancel' => __('Cancel', $this->prefix),
       'select_all' => __('Select all', $this->prefix),
@@ -1890,28 +1893,20 @@ function photo_gallery( $id ) {
 }
 
 /**
- * Show notice to install 10web manager plugin
+ * Show 10Web manager plugin install or activate banner.
+ *
+ * @return string
  */
 function wdpg_tenweb_install_notice() {
-  // Show notice only on plugin pages.
+  // Show notice only on galleries, gallery groups, themes list and options pages.
   if ( ( !isset($_GET['page']) || strpos(esc_html($_GET['page']), '_bwg') === FALSE ) ||
     ( isset($_GET['task']) && !strpos(esc_html($_GET['task']), 'edit') === TRUE && !(strpos(esc_html($_GET['task']), 'display') > -1))) {
     return '';
   }
-  wp_enqueue_script('thickbox');
-  wp_enqueue_script('bwg_admin', BWG()->plugin_url . '/js/bwg.js', array(), BWG()->plugin_version);
 
   // Remove old notice.
   if ( get_option('tenweb_notice_status') !== FALSE ) {
     update_option('tenweb_notice_status', '1', 'no');
-  }
-
-  $tenweb_notice_version = get_option('tenweb_notice_version');
-  if( !empty($tenweb_notice_version)  ) {
-    $v = $tenweb_notice_version;
-  } else {
-    $v = wp_rand( 1, 2 ); // v1-design, v2-classic
-    update_option( 'tenweb_notice_version', $v );
   }
 
   $meta_value = get_option('tenweb_notice_status');
@@ -1920,21 +1915,15 @@ function wdpg_tenweb_install_notice() {
     $prefix = BWG()->prefix;
     $url = BWG()->plugin_url;
     $dismiss_url = add_query_arg(array( 'action' => 'wd_tenweb_dismiss' ), admin_url('admin-ajax.php'));
-    if( $v == 1 ) {
-      $type = 'photo_gallery_0'; // designed
-    } else {
-      $type = 'photo_gallery_1'; // classic
-    }
-    $verify_url = add_query_arg( array ('action' => 'tenweb_status', 'type' => $type), admin_url('admin-ajax.php'));
+    $verify_url = add_query_arg( array ('action' => 'tenweb_status'), admin_url('admin-ajax.php'));
     ?>
     <style>
       .hide {
-        display: none!important;
+        display: none !important;
       }
-      #verifyUrl{
+      #verifyUrl {
         display: none
       }
-
       #loading {
         position: absolute;
         right: 20px;
@@ -1945,603 +1934,244 @@ function wdpg_tenweb_install_notice() {
         background-size: 20px 20px;
         filter: alpha(opacity=70);
       }
-
       #wd_tenweb_logo_notice {
         height: 32px;
         float: left;
-        margin-right: 10px;
       }
       .error_install, .error_activate {
-        color:red;
+        color: red;
         font-size: 10px;
       }
       /* -------------------Version 2 styles------------------ */
-      #v2_tenweb_notice_cont {
+      #wpbody-content #v2_tenweb_notice_cont {
         display: flex;
         flex-wrap: wrap;
         width: calc(100% - 25px);
         background: #fff;
-        box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
         position: relative;
         margin-top: 50px;
         padding: 5px 0;
         overflow: hidden;
-        border-left:4px solid #0073AA;
+        border-left: 4px solid #0073AA;
+        font-family: Open Sans, sans-serif;
+        height: 40px;
+        min-height: 40px;
       }
-
-      #v2_tenweb_notice_cont .wd_tenweb_notice_dissmiss.notice-dismiss {
-        top:10px;
-        right:5px;
-      }
-
-
       .v2_logo {
-        width: 0px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: inherit;
       }
 
-      .v2_logo img {
-        display: none;
+      #v2_tenweb_notice_cont {
+        height: 50px;
+        padding: 0px;
       }
 
       .v2_content {
-        display: flex;
-        padding-left: 20px;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        align-items: flex-start;
+        flex-grow: 1;
+        height: inherit;
+        margin-left: 34px;
       }
 
-      .v2_content p{
-        font-size: 13px;
+      .v2_content p {
+        font-size: 16px;
+        color: #333B46;
+        font-weight: 600;
+        line-height: 40px;
         margin: 0;
-        padding: 0;
-        font-weight: normal;
       }
-      .v2_content .dashicons-dismiss:before {
-        content: "\f153";
-        background: 0 0;
-        color: #72777c;
-        display: block;
-        font: 400 16px/20px dashicons;
-        speak: none;
-        height: 20px;
-        text-align: center;
-        width: 20px;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+      #wd_tenweb_logo_notice {
+        margin-left: 35px;
+        height: 30px;
+        line-height: 100%;
       }
-
-      .wd_tenweb_notice_dissmiss {
-        margin: 0;
-        padding: 0;
-      }
-
 
       .v2_button {
         display: flex;
-        align-items: center;
-        margin-left: 20px;
-        width: 135px;
+        margin-right: 30px;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .v2_button #install_now, #activate_now {
+        width: 112px;
+        height: 32px;
+        line-height: 30px;
+        font-size: 14px;
+        text-align: center;
+        padding: 0;
+      }
+
+      #v2_tenweb_notice_cont .wd_tenweb_notice_dissmiss.notice-dismiss {
+        top: 3px;
+        right: 3px;
+        padding: 0px;
       }
 
       .v2_button .button {
-        margin: 0;
-        padding: 3px 20px;
-        height: 28px;
-        background-color: #0085BA;
-        border: 1px solid #006799;
-        color:#fff;
-        vertical-align: middle;
-        line-height: inherit;
-        position:relative;
+        position: relative;
       }
 
       .v2_button .button #loading {
         position: absolute;
-        right: 4px;
-        top: 50%;
-        transform: translateY(-50%);
-        margin: 0px;
-        background: url('images/spinner.gif') no-repeat;
-        background-size: 12px 12px;
-        filter: alpha(opacity=70);
-        width:12px;
-        height:12px;
-      }
-
-      .v2_button .button:hover {
-        background-color: #006799;
-        border: 1px solid #006799;
-        color:#fff;
-      }
-
-
-
- /* -------------------Version 1 styles------------------ */
-      #v1_tenweb_notice_cont {
-        display: flex;
-        flex-wrap: wrap;
-        width: calc(100% - 20px);
-        height: 135px;
-        -webkit-border-radius: 10px;
-        -moz-border-radius: 10px;
-        border-radius: 10px;
-        background: url("<?php echo $url . '/images/tenweb/optimize_banner_bg.svg'; ?>") no-repeat center;
-        background-size: cover;
-        box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-        position: relative;
-        margin-top: 50px;
-        overflow: hidden;
-      }
-
-      .v1_logo {
-        width: 110px;
-      }
-
-      .v1_logo img {
-        width: 110px;
-      }
-
-      .v1_content {
-        font-family: Open Sans, sans-serif;
-        flex:1;
-        background: url("<?php echo $url . '/images/tenweb/Mask Group 250_1.png'; ?>") no-repeat right center;
-      }
-
-      .v1_button {
-        width: 182px;
-        height: 40px;
-        text-transform: uppercase;
-      }
-
-      .v1_content p {
-        max-width: 370px;
-        font-size: 15px;
-        color: #000;
-        font-weight: bold;
-        text-align: left;
-        line-height: 1.2;
-      }
-
-      .v1_content p span {
-        font-size: 22px;
-        color: #F8C332;
-        font-weight: bold;
-      }
-
-      .v1_logo, .v1_content {
-        padding-left: 20px;
-      }
-
-      .v1_button #loading {
-        position: absolute;
         right: 10px;
         top: 50%;
         transform: translateY(-50%);
+        margin: 0px;
+        background-size: 12px 12px;
+        filter: alpha(opacity=70);
+        width: 12px;
+        height: 12px;
       }
 
-      .v1_button a.button {
-        position: relative;
-        background-color:#F8C332 ;
-        color: #fff;
-        font-size: 14px;
-        border: none;
-        padding: 6px 40px;
-        height: auto;
-        border-radius: 30px;
-        max-width: 170px;
-      }
-
-      .v1_button a.button:hover {
-        background-color:#F8C332 ;
-        color: #fff;
-        border: none;
-      }
-	  
-	  #v1_tenweb_notice_cont .wd_tenweb_notice_dissmiss.notice-dismiss {
-		top:5px;
-		right:5px;
-	  }
-
-      @media only screen and (min-width: 1801px) {
-
-        #v1_tenweb_notice_cont {
-          height: 80px;
-          box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-        }
-
-        #v1_tenweb_notice_cont > div {
-          display: flex;
-          justify-content: center;
-          flex-direction: column;
-          text-align: center;
-          height: inherit;
-        }
-
-        .v1_logo {
-          width: 186px;
-        }
-
-        .v1_logo img {
-          width: 117px;
-        }
-
-        .v1_content {
-          font-family: Open Sans, sans-serif;
-          flex:1;
-          background: url("<?php echo $url . '/images/tenweb/Mask Group 243.png'; ?>") no-repeat right center;
-        }
-
-        .v1_button {
-          position: relative;
-          width: 250px;
-        }
-
-        .v1_content p {
-          max-width: 650px;
-          font-size: 20px;
-          color: #000;
-          font-weight: bold;
-          text-align: left;
-        }
-
-        .v1_content p span {
-          font-size: 25px;
-          color: #F8C332;
-        }
-
-        .v1_logo, .v1_content {
-          padding-left: 30px;
-        }
-
-        .v1_logo img {
-          width: 146px;
-        }
-
-        .v1_button a.button {
-          font-size: 18px;
-          padding: 11px 50px;
-          max-width: 220px;
-        }
-      }
-
-      @media only screen and (min-width: 1400px) and (max-width: 1800px) {
-        #v1_tenweb_notice_cont {
-          height: 80px;
-        }
-
-        #v1_tenweb_notice_cont > div {
-          display: flex;
-          justify-content: center;
-          flex-direction: column;
-          text-align: center;
-          height: inherit;
-        }
-
-        .v1_logo {
-          width: 120px;
-        }
-
-        .v1_logo img {
-          width: 117px;
-        }
-
-        .v1_content {
-          font-family: Open Sans, sans-serif;
-          flex:1;
-          background: url("<?php echo $url . '/images/tenweb/Mask Group 249.png'; ?>") no-repeat right center;
-        }
-
-        .v1_button {
-          position: relative;
-          width: 200px;
-        }
-
-        .v1_content p {
-          max-width: 450px;
-          font-size: 18px;
-        }
-
-        .v1_logo, .v1_content {
-          padding-left: 20px;
-        }
-
-        .v1_button a.button {
-          font-size: 18px;
-          padding: 8px 40px;
-          max-width: 184px;
-        }
-      }
-
-      @media only screen and (min-width: 1280px) and (max-width: 1400px) {
-        #v1_tenweb_notice_cont {
-          height: 80px;
-        }
-
-        #v1_tenweb_notice_cont > div {
-          display: flex;
-          justify-content: center;
-          flex-direction: column;
-          text-align: center;
-          height: inherit;
-        }
-
-        .v1_logo {
-          width: 110px;
-        }
-
-        .v1_logo img {
-          width: 110px;
-        }
-
-        .v1_content {
-          font-family: Open Sans, sans-serif;
-          flex:1;
-          background: url("<?php echo $url . '/images/tenweb/Mask Group 250.png'; ?>") no-repeat right center;
-        }
-
-        .v1_button {
-          position: relative;
-          width: 182px;
-        }
-
-        .v1_content p {
-          max-width: 400px;
-          font-size: 16px;
-        }
-
-        .v1_logo, .v1_content {
-          padding-left: 20px;
-        }
-
-
-        .v1_button a.button {
-          padding: 8px 40px;
-          max-width: 170px;
-        }
-      }
-
-      @media only screen and (min-width: 1020px) and (max-width: 1279px) {
-        #v1_tenweb_notice_cont {
-          height: 135px;
-          background-size: cover;
-          box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-          position: relative;
-        }
-
-        .v1_logo {
-          width: 110px;
-        }
-
-        .v1_logo img {
-          width: 110px;
-          padding-top: 25px;
-        }
-
-        .v1_content {
-          font-family: Open Sans, sans-serif;
-          flex:1;
-          background: url("<?php echo $url . '/images/tenweb/Mask Group 250_1.png'; ?>") no-repeat right center;
-        }
-
-        .v1_button {
-          position: absolute;
-          width: 182px;
-          bottom: 10px;
+      @media only screen and (max-width: 1200px) and (min-width: 821px) {
+        #wpbody-content #v2_tenweb_notice_cont {
           height: 50px;
-          left:150px;
+          min-height: 50px;
         }
 
-        .v1_content p {
-          max-width: 395px;
-          font-size: 16px;
-          line-height: 1.2;
+        #v2_tenweb_notice_cont {
+          height: 60px;
         }
 
-        .v1_logo, .v1_content {
-          padding-left: 20px;
+        .v2_content {
+          margin-left: 25px;
         }
-
-        .v1_button a.button {
-          padding: 8px 40px;
-        }
-      }
-
-      @media only screen and (min-width: 850px) and (max-width: 1019px) {
-        #v1_tenweb_notice_cont {
-          height: 135px;
-          background-size: cover;
-        }
-
-        .v1_logo {
-          width: 110px;
-        }
-
-        .v1_logo img {
-          width: 110px;
-          padding-top: 25px;
-        }
-
-        .v1_content {
-          font-family: Open Sans, sans-serif;
-          flex:1;
-          background: url("<?php echo $url . '/images/tenweb/Mask Group 250_1.png'; ?>") no-repeat right center;
-        }
-
-        .v1_button {
-          position: absolute;
-          width: 182px;
-          bottom: 10px;
-          height: 40px;
-          left:150px;
-        }
-
-        .v1_content p {
-          max-width: 370px;
-          font-size: 15px;
-          line-height: 1.2;
-        }
-
-        .v1_logo, .v1_content {
-          padding-left: 20px;
-        }
-
-        .v1_button a.button {
-          background-color:#F8C332 ;
-          color: #fff;
+        .v2_content p {
           font-size: 14px;
-          border: none;
-          padding: 6px 40px;
-          height: auto;
-          border-radius: 30px;
-          max-width: 170px;
+          color: #333B46;
+          font-weight: 600;
+          line-height: 20px;
+          margin-top: 5px;
         }
-      }
-
-      @media only screen and (min-width: 760px) and (max-width: 849px) {
-        #v1_tenweb_notice_cont {
-          height: 135px;
-          background-size: cover;
-        }
-
-        .v1_logo {
-          width: 110px;
-        }
-
-        .v1_logo img {
-          width: 110px;
-          padding-top: 25px;
-        }
-
-        .v1_content {
-          font-family: Open Sans, sans-serif;
-          flex:1;
-          background: url("<?php echo $url . '/images/tenweb/Mask Group 250_1.png'; ?>") no-repeat right -50px center;
-        }
-
-        .v1_button {
-          position: absolute;
-          width: 182px;
-          bottom: 10px;
-          height: 40px;
-          left:150px;
-        }
-
-        .v1_content p {
-          max-width: 370px;
-          font-size: 15px;
-          line-height: 1.2;
-        }
-
-        .v1_logo, .v1_content {
-          padding-left: 20px;
-        }
-
-        .v1_button a.button {
-          background-color:#F8C332 ;
-          color: #fff;
-          font-size: 14px;
-          border: none;
-          padding: 6px 40px;
-          height: auto;
-          border-radius: 30px;
-          max-width: 170px;
-        }
-      }
-
-      @media only screen and (min-width: 200px) and (max-width: 759px) {
-        #v1_tenweb_notice_cont {
+        .v2_content p span {
           display: block;
+        }
+
+        #wd_tenweb_logo_notice {
+          margin-left: 25px;
+          height: 30px;
+          line-height: 100%;
+        }
+
+        .v2_button {
+          display: flex;
+          margin-right: 30px;
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        .v2_button #install_now {
+          width: 112px;
+          height: 32px;
+          line-height: 30px;
+          font-size: 14px;
+          text-align: center;
+          padding: 0;
+        }
+
+        #v2_tenweb_notice_cont .wd_tenweb_notice_dissmiss.notice-dismiss {
+          top: 3px;
+          right: 3px;
+        }
+      }
+
+      @media only screen and (max-width: 820px) and (min-width: 781px) {
+
+        #wpbody-content #v2_tenweb_notice_cont {
+          height: 50px;
+          min-height: 50px;
+        }
+
+        #v2_tenweb_notice_cont {
+          height: 60px;
+        }
+
+        .v2_content {
+          margin-left: 25px;
+        }
+
+        .v2_content p {
+          font-size: 13px;
+          color: #333B46;
+          font-weight: 600;
+          line-height: 20px;
+          margin-top: 5px;
+        }
+
+        .v2_content p span {
+          display: block;
+        }
+
+      }
+
+      @media only screen and (max-width: 780px) {
+
+        #wpbody-content #v2_tenweb_notice_cont {
+          height: auto;
+          min-height: auto;
+          width: calc(100% - 20px);
+        }
+
+        #v2_tenweb_notice_cont {
+          height: auto;
+          padding: 5px;
+          width: calc(100% - 35px);
+        }
+
+        .v2_logo {
+          display: block;
+          height: auto;
+          width: 100%;
+          margin-top: 5px;
+        }
+
+        .v2_content {
+          display: block;
+          margin-left: 9px;
+          margin-top: 10px;
           width: calc(100% - 10px);
-          height: 346px;
-          background: url("<?php echo $url . '/images/tenweb/optimize_banner_bg_mobile.svg'; ?>") no-repeat center cover;
         }
 
-        .v1_logo {
-          width: 100%;
-          height: 70px;
-          display: block;
-          margin: auto;
-          text-align: center;
-        }
-
-        .v1_logo img#wd_tenweb_logo_notice {
-          width: 110px;
-          padding-top: 30px;
-          float: initial;
-        }
-
-        .v1_content {
-          font-family: Open Sans, sans-serif;
-          width:100%;
-          background: transparent;
-        }
-
-        .v1_button {
-          position: relative;
-          width: 100%;
-          height: 200px;
-          margin: auto;
-          text-align: center;
-          left: 0px;
-          background: url("<?php echo $url . '/images/tenweb/Mask Group 250@2x.png'; ?>") no-repeat left top 50px;
-          background-size: cover;
-          -webkit-border-radius: 10px;
-          -moz-border-radius: 10px;
-          border-radius: 10px;
-        }
-
-        .v1_content p {
-          width: 90%;
-          max-width: none;
+        .v2_content p {
+          line-height: unset;
           font-size: 15px;
-          line-height: 1.2;
-          text-align: center;
-          margin: 20px auto;
+          line-height: 25px;
+        }
+        .v2_content p span{
+          display: block
+        }
+        #wd_tenweb_logo_notice {
+          margin-left: 9px;
         }
 
-        .v1_logo, .v1_content {
-          padding-left: 0px;
-          margin: auto;
-          text-align: center;
-        }
-
-        .v1_button a.button {
-          background-color:#F8C332 ;
-          color: #fff;
-          font-size: 14px;
-          border: none;
-          padding: 10px 40px;
-          height: auto;
-          border-radius: 30px;
-          max-width: 170px;
-        }
-      }
-
-      @media only screen and (max-width: 420px) {
-        .v1_button {
-          height: 166px;
+        .v2_button {
+          margin-left: 9px;
+          margin-top: 10px;
+          margin-bottom: 5px;
         }
       }
     </style>
-    <div id="v<?php echo $v ?>_tenweb_notice_cont">
-      <div class="v<?php echo $v ?>_logo"><img id="wd_tenweb_logo_notice" src="<?php echo $url . '/images/tenweb/10web-logo.svg'; ?>" /></div>
-      <div class="v<?php echo $v ?>_content">
+    <div id="v2_tenweb_notice_cont" class="wd-admin-notice">
+      <div class="v2_logo">
+        <img id="wd_tenweb_logo_notice" src="<?php echo $url . '/images/tenweb/Photo-Gallery-logo.svg'; ?>" />
+      </div>
+      <div class="v2_content">
         <p>
-          <?php echo sprintf(__('Optimize Your Images Up to %s 90&#37; %s & Speed Up Your Website %s 3X %s With Our Optimizations Service', $prefix), '<span>','</span>', '<span>','</span>'); ?>
+          <?php echo sprintf(__('%sPhoto Gallery advises:%s %sUse Image Optimizer service to optimize your images quickly and easily.%s', $prefix), '<span>','</span>', '<span>','</span>'); ?>
         </p>
       </div>
-      <div class="v<?php echo $v ?>_button">
-      <?php
-        WDWLibrary::twbb_install_button();
-      ?>
+      <div class="v2_button">
+        <?php WDWLibrary::twbb_install_button(2); ?>
       </div>
-      <button type="button" class="wd_tenweb_notice_dissmiss notice-dismiss" onclick="jQuery('#v<?php echo $v ?>_tenweb_notice_cont').attr('style', 'display: none !important;'); jQuery.post('<?php echo $dismiss_url; ?>');"><span class="screen-reader-text"></span></button>
-      <div id="verifyUrl" data-url="<?php echo $verify_url ?>"></div>
+      <button type="button" class="wd_tenweb_notice_dissmiss notice-dismiss" onclick="jQuery('#v2_tenweb_notice_cont').attr('style', 'display: none !important;'); jQuery.post('<?php echo $dismiss_url; ?>');"><span class="screen-reader-text"></span></button>
+      <div id="verifyUrl" data-url="<?php echo $verify_url; ?>"></div>
     </div>
-
     <?php
+
     echo ob_get_clean();
   }
 }
@@ -2555,7 +2185,7 @@ if ( !is_plugin_active( '10web-manager/10web-manager.php' ) && !BWG()->is_pro ) 
 }
 
 if ( !function_exists('wd_tenwebps_install_notice_status') ) {
-  // Add usermeta to db.
+  // Add usermeta to DB.
   function wd_tenwebps_install_notice_status() {
     update_option('tenweb_notice_status', '1', 'no');
   }
@@ -2566,28 +2196,28 @@ if ( !function_exists('wd_tenwebps_install_notice_status') ) {
 function check_tenweb_status() {
   $status_install = 0;
   $status_active = 0;
-  $plugin_dir = WP_PLUGIN_DIR . '/10web-manager/';
-  if ( is_dir($plugin_dir) ) {
+  if ( WDWLibrary::is_plugin_installed('10web-manager') ) {
     $status_install = 1;
-  } else if ( is_plugin_active( '10web-manager/10web-manager.php' ) ) {
-    $status_active = 1;
   }
-
-  $type = WDWLibrary::get('type'); // getting type of install (popup, classic or designed)
-  if ( is_dir($plugin_dir) ) {
-	$old_opt_array = array();
-	$new_opt_array = array('photo-gallery' => 101, 'type' => $type); // core_id
-	$key = 'tenweb_manager_installed';
-	$option = get_option($key);
-	if ( !empty($option) ) {
-		$old_opt_array = (array) json_decode($option);
-	}
-	$array_installed = array_merge( $new_opt_array, $old_opt_array );
-	update_option( $key, json_encode($array_installed) );
+  else {
+    if ( is_plugin_active('10web-manager/10web-manager.php') ) {
+      $status_active = 1;
+    }
   }
-
-  $jsondata = array('status_install' => $status_install, 'status_active' => $status_active);
-  echo json_encode($jsondata); exit;
+  if ( WDWLibrary::is_plugin_installed('10web-manager') ) {
+    $old_opt_array = array();
+    $new_opt_array = array( 'photo-gallery' => 101 ); // core_id
+    $key = 'tenweb_manager_installed';
+    $option = get_option($key);
+    if ( !empty($option) ) {
+      $old_opt_array = (array) json_decode($option);
+    }
+    $array_installed = array_merge($new_opt_array, $old_opt_array);
+    update_option($key, json_encode($array_installed));
+  }
+  $jsondata = array( 'status_install' => $status_install, 'status_active' => $status_active );
+  echo json_encode($jsondata);
+  exit;
 }
 add_action('wp_ajax_tenweb_status', 'check_tenweb_status');
 
