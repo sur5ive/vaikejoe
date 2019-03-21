@@ -231,10 +231,7 @@ abstract class WP_Widget_Media extends WP_Widget {
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 		$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 
-		if ( $title ) {
-			echo $args['before_title'] . $title . $args['after_title'];
-		}
-
+		
 		/**
 		 * Filters the media widget instance prior to rendering the media.
 		 *
@@ -247,6 +244,11 @@ abstract class WP_Widget_Media extends WP_Widget {
 		$instance = apply_filters( "widget_{$this->id_base}_instance", $instance, $args, $this );
 
 		$this->render_media( $instance );
+
+		// Moved the Title below the Image
+		if ( $title ) {
+			echo $args['before_title'] . $title . $args['after_title'];
+		}
 
 		echo $args['after_widget'];
 	}

@@ -16,7 +16,7 @@ if (nimbus_get_option('fp-about-toggle') == '1') { ?>
                         <div class="about-sub-title h4"><?php echo esc_html(nimbus_get_option('fp-about-sub-title')); ?></div>
                     <?php } ?>
                     <?php if (nimbus_get_option('fp-about-description') != '') { ?>
-                        <p class="about-desc"><?php echo esc_html(nimbus_get_option('fp-about-description')); ?></p>
+                        <p class="about-desc"><?php echo nimbus_get_option('fp-about-description'); ?></p>
                     <?php } ?>
                     <?php if ( is_active_sidebar( 'frontpage-about-left' ) ) { ?>
                     	<?php dynamic_sidebar( 'frontpage-about-left' ); ?>

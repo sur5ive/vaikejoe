@@ -1,7 +1,7 @@
 <?php 
 $section_bg=nimbus_get_option('fp-social-background-image');
 if (!empty($section_bg)) {
-    $nimbus_parallax="data-parallax='scroll' data-image-src='" . esc_url($section_bg) . "' style='background: transparent;padding:220px 0 200px;background: rgba(0, 0, 0, 0.3);'";
+    $nimbus_parallax="data-parallax='scroll' data-image-src='" . esc_url($section_bg) . "' style='background: transparent;padding:220px 0 200px;background: rgba(0, 0, 0, 0.1);'";
     $parallax_active="parallax_active";
 } 
 if (nimbus_get_option('fp-social-toggle') == '1') { ?>
@@ -27,7 +27,7 @@ if (nimbus_get_option('fp-social-toggle') == '1') { ?>
 <?php } else if (nimbus_get_option('fp-social-toggle') == '3') {
     // Don't do anything
 } else { ?>  
-    <section id="<?php if (nimbus_get_option('fp-social-slug')=='') {echo "social";} else {echo esc_attr(nimbus_get_option('fp-social-slug'));} ?>" class="frontpage-row frontpage-social preview parallax_active" data-parallax='scroll' data-image-src='<?php echo get_template_directory_uri(); ?>/assets/images/preview/jelly.jpg' style='background: transparent;padding:220px 0 200px;background: rgba(0, 0, 0, 0.3);'>
+    <section id="<?php if (nimbus_get_option('fp-social-slug')=='') {echo "social";} else {echo esc_attr(nimbus_get_option('fp-social-slug'));} ?>" class="frontpage-row frontpage-social preview parallax_active" data-parallax='scroll' data-image-src='<?php echo get_template_directory_uri(); ?>/assets/images/preview/jelly.jpg' style='background: transparent;padding:220px 0 200px;background: rgba(0, 0, 0, 0.1);'>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">

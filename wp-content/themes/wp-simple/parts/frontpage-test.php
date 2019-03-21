@@ -11,6 +11,9 @@ if (nimbus_get_option('fp-test-toggle') == '1') { ?>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
+                    <?php if (nimbus_get_option('fp-test-title') != '') { ?>
+                        <h3 class="test-title h1"><?php echo esc_html(nimbus_get_option('fp-test-title')); ?></h3>
+                    <?php } ?>
                     <div class="row">
                         <div class="col-md-3 col-md-offset-1"  data-sr="wait 0.3s, enter left and move 50px after 1s">
                             <div class="test-item">
@@ -19,10 +22,7 @@ if (nimbus_get_option('fp-test-toggle') == '1') { ?>
                         </div>          
                         <div class="col-md-7"  data-sr="wait 0.3s, enter right and move 50px after 1s">
                             <?php if (nimbus_get_option('fp-test-title') != '') { ?>
-                                <h3 class="test-title"><?php echo esc_html(nimbus_get_option('fp-test-title')); ?></h3>
-                            <?php } ?>
-                            <?php if (nimbus_get_option('fp-test-title') != '') { ?>
-                                <div class="test-desc"><?php echo esc_html(nimbus_get_option('fp-test-description')); ?></div>
+                                <div class="test-desc"><?php echo nl2br(esc_html(nimbus_get_option('fp-test-description'))); ?></div>
                             <?php } ?>
                             <?php if (nimbus_get_option('fp-test-tag') != '') { ?>
                                 <?php if (nimbus_get_option('fp-test-tag-url') != '') {

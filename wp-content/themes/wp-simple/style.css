@@ -228,7 +228,7 @@ Frontpage
 .frontpage-about{background: #fff;padding:110px 0 120px;}
 .frontpage-about.parallax_active{color:#fff;}
 .frontpage-about.preview{background: #fff;}
-.frontpage-about .about-sub-title{margin-bottom:20px;}
+.frontpage-about .about-sub-title{margin-bottom:40px;}
 .frontpage-about .about-desc{text-align:center;max-width:60%;margin:0px auto; margin-bottom:50px;}
 .frontpage-about .frontpage-about-row{margin-bottom:20px;}
 .frontpage-about .frontpage-about-row i{float:left;font-size:30px;width:50px;height:50px;background-color: rgba(0,174,239,1);border-radius:50px;line-height:50px; margin-bottom:10px;text-align:center;margin-right:30px; margin-top:5px; color:#fff;}
@@ -301,7 +301,7 @@ div.content .frontpage-post-content .meta, .single_meta{font-size:11px;font-styl
 .frontpage-test{background: #fff;padding:120px 0 100px;}
 .frontpage-test.parallax_active {color:#fff;}
 .frontpage-test .test-title{padding-top:40px;}
-.frontpage-test .test-desc{font-size:20px;font-style:italic;padding:5px 0 20px;}
+.frontpage-test .test-desc{font-size:20px;font-style:normal;padding:5px 0 20px;}
 .frontpage-test.parallax_active .test-tag a{color:#fff;}
 
 

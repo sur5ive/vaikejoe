@@ -18,7 +18,7 @@ class nimbus_about_content_widget extends WP_Widget {
     
     // Create output function
     public function widget($args, $instance) {
-		echo $args['before_widget'];
+		
 		?>
             <div class="about-content">
                 <?php if ( ! empty( $instance['content'] ) ) { 
@@ -26,7 +26,9 @@ class nimbus_about_content_widget extends WP_Widget {
                 } ?>
             </div>  
 		<?php
+		
 		echo $args['after_widget'];
+		echo $args['before_widget'];
     }  
     
     // Create widget form

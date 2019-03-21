@@ -1,7 +1,7 @@
 <?php if (is_front_page() && !is_paged())  { ?>
     <?php  $section_bg=nimbus_get_option('fp-banner-background-image');
     if (!empty($section_bg)) {
-        $nimbus_parallax="data-parallax='scroll' data-image-src='" . esc_url($section_bg) . "' style='background: rgba(0, 0, 0, 0.3);'";
+        $nimbus_parallax="data-parallax='scroll' data-image-src='" . esc_url($section_bg) . "' style='background: rgba(0, 0, 0, 0.1);'";
         $parallax_active="parallax_active";
     } ?>
     <?php if (nimbus_get_option('fp-banner-toggle') == '1') { ?>
@@ -23,7 +23,7 @@
     <?php } else if (nimbus_get_option('fp-banner-toggle') == '3') { ?>
         <?php // do nothing ?>
     <?php } else { ?>     
-        <section class="frontpage-banner parallax_active" data-parallax='scroll' data-image-src='<?php echo get_template_directory_uri(); ?>/assets/images/preview/deer.jpg' style='background: transparent;background: rgba(0, 0, 0, 0.3);'>
+        <section class="frontpage-banner parallax_active" data-parallax='scroll' data-image-src='<?php echo get_template_directory_uri(); ?>/assets/images/preview/deer.jpg' style='background: transparent;background: rgba(0, 0, 0, 0.1);'>
             <div class="container">
                 <div class="banner-wrap" data-sr='wait 0.9s, scale up 25%'>
                     <div class="banner-title"><?php _e('Simple','wp-simple'); ?></div>
@@ -40,13 +40,13 @@
         $thumb_url_array = wp_get_attachment_image_src($thumb_id, 'full');
         $thumb_url = $thumb_url_array[0];
         if (!empty($thumb_url)) {
-            $nimbus_parallax="data-parallax='scroll' data-image-src='" . esc_url($thumb_url) . "' style='background: rgba(0, 0, 0, 0.35);'";
+            $nimbus_parallax="data-parallax='scroll' data-image-src='" . esc_url($thumb_url) . "' style='background: rgba(0, 0, 0, 0.1);'";
             $parallax_active="parallax_active";
         }
     } else {
         $section_bg=nimbus_get_option('sub-banner-background-image');
         if (!empty($section_bg)) {
-            $nimbus_parallax="data-parallax='scroll' data-image-src='" . esc_url($section_bg) . "' style='background: rgba(0, 0, 0, 0.35);'";
+            $nimbus_parallax="data-parallax='scroll' data-image-src='" . esc_url($section_bg) . "' style='background: rgba(0, 0, 0, 0.1);'";
             $parallax_active="parallax_active";
         } else {
             $nimbus_parallax="data-parallax='scroll' data-image-src='" . get_template_directory_uri() . "/assets/images/preview/deer.jpg' style='background: rgba(0, 0, 0, 0.35);'";

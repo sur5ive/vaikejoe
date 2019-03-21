@@ -536,7 +536,7 @@ Kirki::add_field( 'wp-simple-config', array(
 ) );
 
 
-// Action2
+// Action 2
 
 Kirki::add_section( 'fp-action2', array(
     'title'          => __( 'Frontpage Action Row #2', 'wp-simple' ),
@@ -595,6 +595,16 @@ Kirki::add_field( 'wp-simple-config', array(
 	'priority' => 10,
 	'default'  => '',
 	'description'   => __( 'This is the big text in the Action Row #2 section. Leave blank to hide.', 'wp-simple' ),
+) );
+
+Kirki::add_field( 'wp-simple-config', array(
+	'settings' => 'fp-action2-sub-title',
+	'label'    => __( 'Action Row #2 - Sub Title', 'wp-simple' ),
+	'section'  => 'fp-action2',
+	'type'     => 'text',
+	'priority' => 10,
+	'default'  => '',
+	'description'   => __( 'This is the smaller text in the Action Row #2 section. Leave blank to hide.', 'wp-simple' ),
 ) );
 
 Kirki::add_field( 'wp-simple-config', array(
@@ -1069,9 +1079,9 @@ Kirki::add_field( 'wp-simple-config', array(
 ) );
 
 Kirki::add_field( 'wp-simple-config', array(
-	'settings' => 'fp-team-sub-title',
+	'settings' => 'fp-contact-sub-title',
 	'label'    => __( 'Contact - Sub Title', 'wp-simple' ),
-	'section'  => 'fp-team',
+	'section'  => 'fp-contact',
 	'type'     => 'text',
 	'priority' => 10,
 	'default'  => '',
