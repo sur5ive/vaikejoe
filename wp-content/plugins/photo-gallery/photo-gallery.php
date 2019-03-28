@@ -3,7 +3,7 @@
  * Plugin Name: Photo Gallery
  * Plugin URI: https://10web.io/plugins/wordpress-photo-gallery/
  * Description: This plugin is a fully responsive gallery plugin with advanced functionality.  It allows having different image galleries for your posts and pages. You can create unlimited number of galleries, combine them into albums, and provide descriptions and tags.
- * Version: 1.5.19
+ * Version: 1.5.20
  * Author: Photo Gallery Team
  * Author URI: https://10web.io/plugins/
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -81,8 +81,8 @@ final class BWG {
     $this->plugin_dir = WP_PLUGIN_DIR . "/" . plugin_basename(dirname(__FILE__));
     $this->plugin_url = plugins_url(plugin_basename(dirname(__FILE__)));
     $this->main_file = plugin_basename(__FILE__);
-    $this->plugin_version = '1.5.19';
-    $this->db_version = '1.5.19';
+    $this->plugin_version = '1.5.20';
+    $this->db_version = '1.5.20';
     $this->prefix = 'bwg';
     $this->nicename = __('Photo Gallery', $this->prefix);
 
@@ -630,6 +630,11 @@ final class BWG {
 
     // For drag and drop on mobiles.
     wp_register_script($this->prefix . '_jquery.ui.touch-punch.min', $this->plugin_url . '/js/jquery.ui.touch-punch.min.js', array(), '0.2.3');
+
+    $current_screen = get_current_screen();
+    if ( !$this->is_pro && $current_screen->id == "toplevel_page_bwg_subscribe" ) {
+      wp_enqueue_style($this->prefix . '_subscribe', $this->plugin_url . '/css/bwg_subscribe.css', array(), $this->plugin_version);
+    }
   }
 
   /**
@@ -1387,7 +1392,7 @@ final class BWG {
    */
   public function overview() {
     if (is_admin() && !isset($_REQUEST['ajax'])) {
-      if (!class_exists("TenWebLib")) {
+      if (!class_exists("TenWebLibNew")) {
         $plugin_dir = apply_filters('tenweb_free_users_lib_path', array('version' => '1.1.1', 'path' => $this->plugin_dir));
         require_once($plugin_dir['path'] . '/wd/start.php');
       }
@@ -1623,7 +1628,7 @@ final class BWG {
         "display_overview" => false,
       );
 
-      ten_web_lib_init($bwg_options);
+      ten_web_new_lib_init($bwg_options);
     }
   }
 

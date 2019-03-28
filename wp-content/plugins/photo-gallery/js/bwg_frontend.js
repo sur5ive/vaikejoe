@@ -288,7 +288,8 @@ function bwg_carousel_ready() {
       jQuery(".bwg_carousel_play_pause_" + bwg).attr("title", bwg_objectsL10n.pause);
       jQuery(".bwg_carousel_play_pause_" + bwg).attr("class", "bwg-icon-pause bwg_ctrl_btn_" + bwg + " bwg_carousel_play_pause_" + bwg + "");
     }
-    jQuery(".bwg_carousel_play_pause_" + bwg).on(bwg_click, function () {
+
+    jQuery(".bwg_carousel_play_pause_" + bwg).on(bwg_click, function (event) {
       if (jQuery(".bwg_ctrl_btn_" + bwg).hasClass("bwg-icon-play") ) {
         /*play*/
         jQuery(".bwg_carousel_play_pause_" + bwg).attr("title", bwg_objectsL10n.pause);
@@ -301,6 +302,8 @@ function bwg_carousel_ready() {
         jQuery(".bwg_carousel_play_pause_" + bwg).attr("class", "bwg-icon-play bwg_ctrl_btn_" + bwg + " bwg_carousel_play_pause_" + bwg + "");
         bwg_params_carousel[bwg]['carousel'].pause();
       }
+      event.stopPropagation();
+      event.stopImmediatePropagation();
     });
     if (typeof jQuery().swiperight !== 'undefined') {
       if (jQuery.isFunction(jQuery().swiperight)) {

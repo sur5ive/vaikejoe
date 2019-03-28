@@ -495,7 +495,7 @@ if (!function_exists('nimbus_public_styles')){
         if (!is_admin()) {
             wp_enqueue_style( 'bootstrap', get_template_directory_uri() . '/assets/css/bootstrap.min.css', array(), '1.0', 'all');
             wp_enqueue_style( 'wp_simple_bootstrap_fix', get_template_directory_uri() . '/assets/css/bootstrap-fix.css', array(), '1.0', 'all');
-            wp_enqueue_style( 'font-awesome', get_template_directory_uri() . '/assets/css/font-awesome.min.css', array(), '1.0', 'all');
+            wp_enqueue_style( 'font-awesome', get_template_directory_uri() . '/assets/css/font-awesome.css', array(), '1.0', 'all');
             wp_enqueue_style( 'wp_simple_font-lato', '//fonts.googleapis.com/css?family=Lato:300,400,700,900', array(), '1.0', 'all');
             wp_enqueue_style( 'wp_simple_nimbus-style', get_bloginfo( 'stylesheet_url' ), false, get_bloginfo('version') );
         }
