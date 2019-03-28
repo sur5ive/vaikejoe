@@ -675,6 +675,7 @@ readers do not read off random characters that represent icons */
   content: "\f0a1"; }
 
 .fa-bullseye:before {
+  font-family: FontAwesomeSolid;
   content: "\f140"; }
 
 .fa-burn:before {
@@ -1020,6 +1021,7 @@ readers do not read off random characters that represent icons */
   content: "\f284"; }
 
 .fa-coffee:before {
+  font-family: FontAwesomeSolid;
   content: "\f0f4"; }
 
 .fa-cog:before {
@@ -1605,6 +1607,7 @@ readers do not read off random characters that represent icons */
   content: "\f576"; }
 
 .fa-film:before {
+  font-family: FontAwesomeSolid;
   content: "\f008"; }
 
 .fa-filter:before {
@@ -2352,6 +2355,7 @@ readers do not read off random characters that represent icons */
   content: "\f59c"; }
 
 .fa-layer-group:before {
+  font-family: FontAwesomeSolid;
   content: "\f5fd"; }
 
 .fa-leaf:before {
@@ -3303,6 +3307,7 @@ readers do not read off random characters that represent icons */
   content: "\f5b5"; }
 
 .fa-shower:before {
+  font-family: FontAwesomeSolid;
   content: "\f2cc"; }
 
 .fa-shuttle-van:before {
@@ -3417,6 +3422,7 @@ readers do not read off random characters that represent icons */
   content: "\f7ce"; }
 
 .fa-snowflake:before {
+  font-family: FontAwesomeSolid;
   content: "\f2dc"; }
 
 .fa-snowman:before {
@@ -3708,6 +3714,7 @@ readers do not read off random characters that represent icons */
   content: "\f769"; }
 
 .fa-temperature-low:before {
+  font-family: FontAwesomeSolid;
   content: "\f76b"; }
 
 .fa-tencent-weibo:before {
@@ -3885,6 +3892,7 @@ readers do not read off random characters that represent icons */
   content: "\f63c"; }
 
 .fa-tshirt:before {
+  font-family: FontAwesomeSolid;
   content: "\f553"; }
 
 .fa-tty:before {
@@ -3897,6 +3905,7 @@ readers do not read off random characters that represent icons */
   content: "\f174"; }
 
 .fa-tv:before {
+  font-family: FontAwesomeSolid;
   content: "\f26c"; }
 
 .fa-twitch:before {
@@ -4053,6 +4062,7 @@ readers do not read off random characters that represent icons */
   content: "\f2e5"; }
 
 .fa-utensils:before {
+  font-family: FontAwesomeSolid;
   content: "\f2e7"; }
 
 .fa-vaadin:before {
@@ -4185,6 +4195,7 @@ readers do not read off random characters that represent icons */
   content: "\f40d"; }
 
 .fa-wifi:before {
+  font-family: FontAwesomeSolid;
   content: "\f1eb"; }
 
 .fa-wikipedia-w:before {
@@ -4313,6 +4324,10 @@ and adding the relevant font family
 .fa-bold:before {
   font-family: FontAwesomeSolid;
   content: "\f032"; }
+
+.fa-parking:before {
+  font-family: FontAwesomeSolid;
+  content: "\f540"; }
 
 .sr-only {
   border: 0;
