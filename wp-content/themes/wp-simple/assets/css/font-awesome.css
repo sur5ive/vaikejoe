@@ -3,6 +3,8 @@
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
  /* FONT PATH
+
+ Add font-family to the icon class if want to use it - see .fa-map-marked-alt for example
  * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
@@ -588,6 +590,7 @@ readers do not read off random characters that represent icons */
   content: "\f294"; }
 
 .fa-bold:before {
+  font-family: FontAwesomeSolid;
   content: "\f032"; }
 
 .fa-bolt:before {
@@ -2479,6 +2482,7 @@ readers do not read off random characters that represent icons */
   content: "\f59f"; }
 
 .fa-map-marked-alt:before {
+  font-family: FontAwesomeSolid;
   content: "\f5a0"; }
 
 .fa-map-marker:before {
@@ -2791,6 +2795,7 @@ readers do not read off random characters that represent icons */
   content: "\f1dd"; }
 
 .fa-parking:before {
+  font-family: FontAwesomeSolid;
   content: "\f540"; }
 
 .fa-passport:before {
@@ -4311,23 +4316,6 @@ readers do not read off random characters that represent icons */
 
 .fa-zhihu:before {
   content: "\f63f"; }
-
-/*
-Add new icons by copying the content id from the .svg file
-and adding the relevant font family
-*/
-
-.fa-map-marked-alt:before {
-    font-family: FontAwesomeSolid;
-    content: "\f5a0"; }
-
-.fa-bold:before {
-  font-family: FontAwesomeSolid;
-  content: "\f032"; }
-
-.fa-parking:before {
-  font-family: FontAwesomeSolid;
-  content: "\f540"; }
 
 .sr-only {
   border: 0;
