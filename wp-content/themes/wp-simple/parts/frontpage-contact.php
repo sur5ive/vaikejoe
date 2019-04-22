@@ -47,19 +47,19 @@ if (nimbus_get_option('contact-toggle') == '1') { ?>
                              <form class="contact-form" name="contact-form" method="post">
                                 <div class="row">
                                     <div class="col-sm-4">
-                                        <div class="form-group"><input data-sr="wait 0.3s, enter left and move 50px after 1s" type="text" id="myname" name="myname" placeholder="Name*" class="form-control input-lg" /></div>
+                                        <div class="form-group"><input data-sr="wait 0.3s, enter left and move 50px after 1s" type="text" id="myname" name="myname" placeholder="Nimi*" class="form-control input-lg" /></div>
                                         <div class="form-group"><input data-sr="wait 0.3s, enter left and move 50px after 1s" type="text" id="email" name="email" placeholder="Email*" class="form-control input-lg" /></div>
-                                        <div class="form-group"><input data-sr="wait 0.3s, enter left and move 50px after 1s" type="text" id="website" name="website" placeholder="Website" class="form-control input-lg" /></div>
+                                        <div class="form-group"><input data-sr="wait 0.3s, enter left and move 50px after 1s" type="text" id="website" name="website" placeholder="Pealkiri" class="form-control input-lg" /></div>
                                     </div>
                                     <div class="col-sm-8">
-                                        <textarea data-sr="wait 0.3s, enter right and move 50px after 1s" id="comments" name="comments" class="form-control input-lg" rows="6" cols="" placeholder="Comments"></textarea>
+                                        <textarea data-sr="wait 0.3s, enter right and move 50px after 1s" id="comments" name="comments" class="form-control input-lg" rows="6" cols="" placeholder="Sisu*"></textarea>
                                     </div>
                                 </div>
                                 <br />
                                 <div class="text-center">
                                     <input type="hidden" name="scrolltoform" value="<?php if (nimbus_get_option('fp-contact-slug')=='') {echo "contact";} else {echo esc_attr(nimbus_get_option('fp-contact-slug'));} ?>">
                                     <input type="hidden" name="submitted" id="submitted" value="true" />
-                                    <input data-sr="wait 0.3s, enter right and move 50px after 1s" type="submit" name="submit_button" id="submit_button" value="<?php _e('Submit', 'wp-simple' ); ?>" class="contact-submit" />
+                                    <input data-sr="wait 0.3s, enter right and move 50px after 1s" type="submit" name="submit_button" id="submit_button" value="<?php _e('Saada', 'wp-simple' ); ?>" class="contact-submit" />
                                 </div>
                             </form>
                         </div>
