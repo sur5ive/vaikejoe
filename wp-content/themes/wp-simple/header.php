@@ -8,6 +8,7 @@
         <?php wp_head(); ?>
     </head>
     <body <?php body_class(); ?>>
+		<div id="wptime-plugin-preloader"></div>
         <header id="<?php if (nimbus_get_option('home-slug')=='') {echo "home";} else {echo esc_attr(nimbus_get_option('home-slug'));} ?>">
             <?php
             get_template_part( 'parts/header','menu');
