@@ -1,7 +1,7 @@
 <?php if (is_front_page() && !is_paged())  { ?>
     <?php  $section_bg=nimbus_get_option('fp-banner-background-image');
     if (!empty($section_bg)) {
-        $nimbus_parallax="data-parallax='scroll' data-image-src='" . esc_url($section_bg) . "' style='background: rgba(0, 0, 0, 0.1);'";
+        $nimbus_parallax="data-parallax='scroll' data-image-src='" . esc_url($section_bg) . "' style='background: rgba(0, 0, 0, 0.2);'";
         $parallax_active="parallax_active";
     } ?>
     <?php if (nimbus_get_option('fp-banner-toggle') == '1') { ?>

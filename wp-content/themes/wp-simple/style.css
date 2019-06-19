@@ -300,6 +300,7 @@ div.content .frontpage-post-content .meta, .single_meta{font-size:11px;font-styl
 
 .frontpage-test{background: #fff;padding:120px 0 100px;}
 .frontpage-test.parallax_active {color:#fff;}
+.frontpage-test .test-item{padding-top:15px;}
 .frontpage-test .test-title{padding-top:40px;}
 .frontpage-test .test-desc{font-size:20px;font-style:normal;padding:5px 0 20px;}
 .frontpage-test.parallax_active .test-tag a{color:#fff;}

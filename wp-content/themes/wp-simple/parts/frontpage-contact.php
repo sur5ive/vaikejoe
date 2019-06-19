@@ -52,7 +52,7 @@ if (nimbus_get_option('contact-toggle') == '1') { ?>
                                         <div class="form-group"><input data-sr="wait 0.3s, enter left and move 50px after 1s" type="text" id="website" name="website" placeholder="Pealkiri" class="form-control input-lg" /></div>
                                     </div>
                                     <div class="col-sm-8">
-                                        <textarea data-sr="wait 0.3s, enter right and move 50px after 1s" id="comments" name="comments" class="form-control input-lg" rows="6" cols="" placeholder="Sisu*"></textarea>
+                                        <textarea data-sr="wait 0.3s, enter right and move 50px after 1s" id="comments" name="comments" class="form-control input-lg" rows="6" cols="" placeholder="Sõnumi sisu*"></textarea>
                                     </div>
                                 </div>
                                 <br />
