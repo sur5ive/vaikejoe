@@ -2173,7 +2173,7 @@ class WDWLibrary {
     $t_id = $tag->term_id; // Get the ID of the term you're editing
     $term = get_term($t_id, 'bwg_tag');
     ?>
-    <input type="hidden" name="old_tag" value="<?php echo $term->slug ?>">
+    <input type="hidden" name="old_tag" value="<?php echo isset($term->slug) ? $term->slug : ''; ?>" />
     <?php
   }
 
@@ -2383,8 +2383,8 @@ class WDWLibrary {
    */
   public static function get_thumb_size( $thumb_url ) {
     $resolution_thumb = '';
-    if ( !file_exists( BWG()->upload_url.$thumb_url ) ) {
-      $thumb_image = wp_get_image_editor( BWG()->upload_url.$thumb_url );
+    if ( file_exists( BWG()->upload_dir . $thumb_url ) ) {
+      $thumb_image = wp_get_image_editor( BWG()->upload_dir . $thumb_url );
       if ( !is_wp_error( $thumb_image ) ) {
         $get_thumb_size = $thumb_image->get_size();
         $resolution_thumb = $get_thumb_size["width"] . "x" . $get_thumb_size["height"];
@@ -2607,9 +2607,10 @@ class WDWLibrary {
           }
       }
     }
+    $user_guide_link .= BWG()->utm_source;
     $show_content = $show_content && !BWG()->is_pro;
     $support_forum_link = 'https://wordpress.org/support/plugin/photo-gallery';
-    $premium_link = 'https://10web.io/plugins/wordpress-photo-gallery/?utm_source=photo_gallery&utm_medium=free_plugin';
+    $premium_link = BWG()->plugin_link . BWG()->utm_source;
     wp_enqueue_style(BWG()->prefix . '-roboto');
     wp_enqueue_style(BWG()->prefix . '-pricing');
     ob_start();

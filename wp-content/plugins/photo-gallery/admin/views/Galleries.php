@@ -364,7 +364,7 @@ class GalleriesView_bwg extends AdminView_bwg {
                         do_action('init_display_facebook_gallery_options_bwg', $params);
                       }
                       else {
-                        $link = '<a href="https://10web.io/plugins/wordpress-photo-gallery/" target="_blank">' . __('Photo Gallery Facebook Integration', BWG()->prefix) . '</a>';
+                        $link = '<a href="' . BWG()->plugin_link . BWG()->utm_source . '" target="_blank">' . __('Photo Gallery Facebook Integration', BWG()->prefix) . '</a>';
                         echo '<div class="error inline"><p>' . sprintf(__("Please install %s add-on to use this feature.", BWG()->prefix), $link) . '</p></div>';
                       }
                       ?>

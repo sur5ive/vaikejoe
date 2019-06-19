@@ -427,7 +427,7 @@ class ShortcodeView_bwg extends AdminView_bwg {
             <?php if ( !BWG()->is_pro ) { ?>
               <div class="media-toolbar-primary search-form" style="float: left;">
             <span class="media-button button-large">
-              <a id="bwg_pro_version_link" class="bwg_link_shortcode" target="_blank" href="https://demo.10web.io/photo-gallery/"><?php _e('Please see ', BWG()->prefix) ?><span id="bwg_pro_version"><?php _e('Thumbnails', BWG()->prefix) ?></span> <?php _e('View in Premium version', BWG()->prefix) ?></a>
+              <a id="bwg_pro_version_link" class="bwg_link_shortcode" target="_blank" href="https://demo.10web.io/photo-gallery/<?php echo BWG()->utm_source; ?>"><?php _e('Please see ', BWG()->prefix) ?><span id="bwg_pro_version"><?php _e('Thumbnails', BWG()->prefix) ?></span> <?php _e('View in Premium version', BWG()->prefix) ?></a>
             </span>
               </div>
             <?php } ?>
@@ -2090,6 +2090,7 @@ class ShortcodeView_bwg extends AdminView_bwg {
           <?php
           if ( $params['gutenberg_callback'] ) {
           ?>
+		  window.parent.window.jQuery(".edit-post-layout__content").css({"z-index":"0","overflow":"auto"});
           window.parent['<?php echo $params['gutenberg_callback']; ?>'](content, shortcode_id);
           return;
           <?php
