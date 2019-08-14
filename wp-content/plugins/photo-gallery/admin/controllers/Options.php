@@ -94,8 +94,8 @@ class OptionsController_bwg {
 													BWG()->nonce => wp_create_nonce(BWG()->nonce),
 												), admin_url('admin-ajax.php') );
 
-  	$params['instagram_return_url'] = 'https://api.instagram.com/oauth/authorize/?client_id=54da896cf80343ecb0e356ac5479d9ec&scope=basic+public_content&redirect_uri=http://api.web-dorado.com/instagram/?return_url=' . urlencode( admin_url('admin.php?page=options_bwg')) . '&response_type=token';
-    $params['instagram_reset_href'] =  add_query_arg( array(
+	$params['instagram_return_url'] = 'https://api.instagram.com/oauth/authorize/?client_id=54da896cf80343ecb0e356ac5479d9ec&scope=basic+public_content&redirect_uri=http://api.web-dorado.com/instagram/&state=' . urlencode( admin_url('admin.php?options_bwg')) . '&response_type=token';
+	$params['instagram_reset_href'] =  add_query_arg( array(
 														'page' => $this->page,
 														'task' => 'reset_instagram_access_token',
 														BWG()->nonce => wp_create_nonce(BWG()->nonce),

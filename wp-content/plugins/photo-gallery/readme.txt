@@ -3,7 +3,7 @@ Contributors: webdorado,wdsupport,photogallerysupport,10web
 Tags: gallery, photo gallery, image gallery, responsive gallery, wordpress gallery plugin, photo albums, gallery slider, gallery lightbox, wordpress photo gallery plugin, fullscreen gallery, watermarking, video gallery
 Requires at least: 3.4
 Tested up to: 5.2
-Stable tag: 1.5.29
+Stable tag: 1.5.32
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -282,6 +282,26 @@ Choose whether to display random or the first/last specific number of images.
 
 == Changelog ==
 
+= 1.5.32 =
+  Added: Possibility to bulk remove tags.
+  Added: Possibility to use AND operator for tag filtering.
+  Added: 'How to insert a shortcode in Gutenberg?' to 'How to use'.
+  Fixed: Minor bug on file upload and import from media library.
+  Fixed: Link in gallery group description.
+  Fixed: Removing link from images alt.
+  Fixed: Order by date in filemanager for folders.
+  Fixed: Scroll load and load more loading should not cover all gallery.
+  Fixed: Instagram sign in.
+  Improved: Automatically select image after upload.
+  Improved: Automatically deactivate gallery after uninstalling.
+  Improved: Auto rotate images depend on image orientation saved in metadata.
+  Improved: Short url for lightbox.
+
+= 1.5.31 =
+* Fixed: Vulnerability problem reported by 'Tin Duong of Fortinet's FortiGuard Labs'.
+
+= 1.5.30 =
+* Removed: Banner to check website performance.
 
 = 1.5.29 =
 * Added: Functionality to disable ajax actions to open galleries by URL.

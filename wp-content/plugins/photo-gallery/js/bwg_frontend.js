@@ -1014,8 +1014,7 @@ function bwg_thumbnail_masonry(that) {
   bwg_container_loaded(container.data('bwg'));
 }
 
-function bwg_thumbnail_mosaic(that) {
-  var container = jQuery(that);
+function bwg_thumbnail_mosaic_logic( container ) {
   var bwg = container.attr('data-bwg');
   var block_id = container.attr('data-block-id');
   var padding_px = parseInt(container.attr('data-thumb-padding')) / 2;
@@ -1038,6 +1037,7 @@ function bwg_thumbnail_mosaic(that) {
     else {
       var thumbnail_height = thumb_height;
     }
+
     /* initialize */
     var mosaic_pics = jQuery(".bwg_mosaic_thumb_" + bwg);
     mosaic_pics.each(function (index) {
@@ -1281,12 +1281,28 @@ function bwg_thumbnail_mosaic(that) {
     });
     jQuery("#" + block_id).width(img_container_left[col_number]).height(img_container_top[0]);
   }
-  /*IMPORTANT!*/
-  jQuery(".bwg_mosaic_thumbnails_" + bwg).css({visibility: 'visible'});
-  jQuery(".tablenav-pages_" + bwg).css({visibility: 'visible'});
-  bwg_container_loaded(bwg);
-  jQuery(".bwg_mosaic_thumb_"+bwg).removeClass("bwg-hidden");
-  jQuery("#bwg_mosaic_thumbnails_div_"+bwg).removeClass("bwg-hidden");
+}
+
+function bwg_thumbnail_mosaic(that) {
+	var container = jQuery(that);
+	var dfd = jQuery.Deferred();
+	dfd.done( [bwg_thumbnail_mosaic_logic] )
+		.done( function(container) {
+			if ( container.data('mosaic-thumb-transition') != '1' ) {
+				jQuery('.bwg_mosaic_thumb_spun_' + bwg).css({
+					'transition': 'all 0.3s ease 0s',
+					'-webkit-transition': 'all 0.3s ease 0s'
+				});
+			}
+			/*IMPORTANT!*/
+			jQuery(".bwg_mosaic_thumbnails_" + bwg).css({visibility: 'visible'});
+			jQuery(".tablenav-pages_" + bwg).css({visibility: 'visible'});
+			bwg_container_loaded(bwg);
+			jQuery(".bwg_mosaic_thumb_"+bwg).removeClass("bwg-hidden");
+			jQuery("#bwg_mosaic_thumbnails_div_"+bwg).removeClass("bwg-hidden");
+		});
+
+	dfd.resolve(container);
 
   if (container.attr('data-image-title') == 'hover') {
     bwg_mosaic_title_on_hover(bwg, container, border_and_padding)
@@ -1620,7 +1636,7 @@ function bwg_ajax(form_id, current_view, id, album_gallery_id, cur_album_id, typ
   }
   /* Show loading.*/
   jQuery("#ajax_loading_" + current_view).removeClass('bwg-hidden');
-
+  jQuery(".bwg_load_more_ajax_loading").css({top: jQuery('#' + id).height()});
   /* Disable scroll to prevent bugs with load more.*/
   if (typeof bwg_scroll_load_action === "function") {
     jQuery(window).off("scroll", bwg_scroll_load_action);
@@ -1694,21 +1710,24 @@ function bwg_ajax(form_id, current_view, id, album_gallery_id, cur_album_id, typ
   post_data["sortImagesByValue_" + current_view] = sortByParam;
 
   if (jQuery("#bwg_search_input_" + current_view).length > 0) { /* Search box exists.*/
-	post_data["bwg_search_" + current_view] = jQuery("#bwg_search_input_" + current_view).val();
+	  post_data["bwg_search_" + current_view] = jQuery("#bwg_search_input_" + current_view).val();
   }
 
-  var breadcrumbObj = jQuery.parseJSON( post_data["bwg_album_breadcrumb_" + current_view] );
-  jQuery.each(breadcrumbObj, function (index, value) {
-    post_data["bwg_search_" + current_view] = '';
-    if ( album_gallery_id == value.id ) {
-      post_data["bwg_search_" + current_view] = value.search;
-    }
-  });
+  if ( typeof post_data["bwg_album_breadcrumb_" + current_view] != "undefined" ) {
+    var breadcrumbObj = jQuery.parseJSON(post_data["bwg_album_breadcrumb_" + current_view]);
+    jQuery.each(breadcrumbObj, function (index, value) {
+      post_data["bwg_search_" + current_view] = '';
+      if (album_gallery_id == value.id) {
+        post_data["bwg_search_" + current_view] = value.search;
+      }
+    });
+  }
 
   post_data["bwg_tag_id_" + id] = jQuery("#bwg_tag_id_" + id).val();
+
   /* Loading.*/
-  jQuery('#gal_front_form_' + current_view).addClass('bwg-hidden');
   jQuery("#ajax_loading_" + current_view).removeClass('bwg-hidden');
+  jQuery(".bwg_load_more_ajax_loading").css({top: jQuery('#' + id).height()});
   jQuery.ajax({
     type: "POST",
     url: ajax_url,

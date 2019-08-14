@@ -53,7 +53,7 @@ div[id^="bwg_container"] .SumoSelect.open > .CaptionCont {
   box-shadow: none;
 }
 
-div[id^="bwg_container"].bwg_container a {
+div[id^="bwg_container"].bwg_container .bwg-a {
   border: none;
   box-shadow: none !important;
   outline: none;
@@ -554,6 +554,15 @@ div[id^="bwg_container"] .bwg-border-box * {
   z-index: 115;
   text-align: center;
   vertical-align: middle;
+  top:0;
+}
+.bwg_load_more_ajax_loading {
+  width: 100%;
+  z-index: 115;
+  text-align: center;
+  vertical-align: middle;
+  position: absolute;
+  height: 30px;
 }
 .bwg_loading_div_2 {
   display: table;
@@ -1937,12 +1946,6 @@ body .bwg_thumbnail.bwg_container .search_line.bwg-search-line-responsive .SumoS
 #ajax_loading {
   position:absolute;
 }
-.bwg_image_info:after {
-    content: "";
-    height: 60px;
-    display: block;
-}
-
 @media (max-width: 480px) {
   .bwg_image_count_container {
     display: none;

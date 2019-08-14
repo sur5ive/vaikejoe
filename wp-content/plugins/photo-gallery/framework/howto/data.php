@@ -47,6 +47,30 @@ $howto = array(
         'function' => ''
       ),
     )
+  ),
+  2 => array(
+    'title' => __('How to insert a shortcode in Gutenberg?', BWG()->prefix),
+    'description' => '',
+    'content' => array(
+      1 => array(
+        'title' => __('Click Photo Gallery Button', BWG()->prefix),
+        'content' => __('To add a gallery as a Gutenberg block, search for Photo Gallery and click on its button in your post/page editor.', BWG()->prefix),
+        'screenshot' => BWG()->plugin_url . '/framework/howto/screenshots/2_1.png',
+        'function' => ''
+      ),
+      2 => array(
+        'title' => __('Configure and Insert', BWG()->prefix),
+        'content' => __('In the pop-up, choose gallery view type, gallery, theme and configure other options for your gallery. Click Insert into post button to add the gallery to the post/page.', BWG()->prefix),
+        'screenshot' => BWG()->plugin_url . '/framework/howto/screenshots/2_2.png',
+        'function' => ''
+      ),
+      3 => array(
+        'title' => __('Congrats !', BWG()->prefix),
+        'content' => __('You\'ve added a gallery to your post/page. Click on Photo Gallery icon again if you want to make changes to your gallery.', BWG()->prefix),
+        'screenshot' => BWG()->plugin_url . '/framework/howto/screenshots/2_3.png',
+        'function' => ''
+      ),
+    )
   )
 );
 if ( !empty($params['shortcode_id']) ) {
@@ -63,7 +87,7 @@ if ( !empty($params['shortcode_id']) ) {
       2 => array(
         'title' => __('Paste the Code', BWG()->prefix),
         'content' => __('In your dashboard navigation go to Appearance > Editor. Choose the specific section you want the gallery to appear and paste the PHP code you copied in that section. Press Update File button to save the changes in the code.', BWG()->prefix),
-        'screenshot' => BWG()->plugin_url . '/framework/howto/screenshots/2_2.png',
+        'screenshot' => BWG()->plugin_url . '/framework/howto/screenshots/3_1.png',
         'function' => ''
       ),
       3 => array(

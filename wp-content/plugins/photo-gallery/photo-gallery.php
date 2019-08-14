@@ -3,7 +3,7 @@
  * Plugin Name: Photo Gallery
  * Plugin URI: https://10web.io/plugins/wordpress-photo-gallery/?utm_source=photo_gallery&utm_medium=free_plugin
  * Description: This plugin is a fully responsive gallery plugin with advanced functionality.  It allows having different image galleries for your posts and pages. You can create unlimited number of galleries, combine them into albums, and provide descriptions and tags.
- * Version: 1.5.29
+ * Version: 1.5.32
  * Author: Photo Gallery Team
  * Author URI: https://10web.io/plugins/?utm_source=photo_gallery&utm_medium=free_plugin
  * License: GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
@@ -84,8 +84,8 @@ final class BWG {
     $this->plugin_dir = WP_PLUGIN_DIR . "/" . plugin_basename(dirname(__FILE__));
     $this->plugin_url = plugins_url(plugin_basename(dirname(__FILE__)));
     $this->main_file = plugin_basename(__FILE__);
-    $this->plugin_version = '1.5.29';
-    $this->db_version = '1.5.29';
+    $this->plugin_version = '1.5.32';
+    $this->db_version = '1.5.32';
     $this->prefix = 'bwg';
     $this->nicename = __('Photo Gallery', $this->prefix);
 
@@ -1135,7 +1135,10 @@ final class BWG {
       }
     }
     $this->create_post_types();
-    flush_rewrite_rules();
+    // Using this insted of flush_rewrite_rule() for better performance with multisite.
+    global $wp_rewrite;
+    $wp_rewrite->init();
+    $wp_rewrite->flush_rules();
   }
 
   /**
@@ -1167,7 +1170,10 @@ final class BWG {
    */
   public function deactivate() {
     wp_clear_scheduled_hook( 'bwg_schedule_event_hook' );
-    flush_rewrite_rules();
+    // Using this insted of flush_rewrite_rule() for better performance with multisite.
+    global $wp_rewrite;
+    $wp_rewrite->init();
+    $wp_rewrite->flush_rules();
   }
 
   public function new_blog_added( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
@@ -1962,5 +1968,5 @@ if ( !BWG()->is_pro ) {
     'base_php' => '10web-manager.php', // Plugin base php filename to be installed.
     'page_url' => admin_url('admin.php?page=tenweb_menu'), // Redirect to URL after activating the plugin.
   );
-  new TWBanner($tw_banner_params);
+//  new TWBanner($tw_banner_params);
 }

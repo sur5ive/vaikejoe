@@ -350,65 +350,12 @@ class BWGControllerSite {
 
     $params_array = array(
       'action' => 'GalleryBox',
-      'tags' => (isset($params['tag']) ? $params['tag'] : 0),
       'current_view' => $bwg,
       'gallery_id' => $params['gallery_id'],
+      'tag' => (isset($params['tag']) ? $params['tag'] : 0),
       'theme_id' => $params['theme_id'],
-      'thumb_width' => $params['thumb_width'],
-      'thumb_height' => $params['thumb_height'],
-      'open_with_fullscreen' => $params['popup_fullscreen'],
-      'open_with_autoplay' => $params['popup_autoplay'],
-      'image_width' => $params['popup_width'],
-      'image_height' => $params['popup_height'],
-      'image_effect' => $params['popup_effect'],
-      'wd_sor' => ($params['sort_by'] == 'RAND()') ? 'order' : $params['sort_by'],
-      'wd_ord' => $params['order_by'],
-      'enable_image_filmstrip' => $params['popup_enable_filmstrip'],
-      'image_filmstrip_height' => $params['popup_filmstrip_height'],
-      'enable_image_ctrl_btn' => $params['popup_enable_ctrl_btn'],
-      'enable_image_fullscreen' => $params['popup_enable_fullscreen'],
-      'popup_enable_info' => $params['popup_enable_info'],
-      'popup_info_always_show' => $params['popup_info_always_show'],
-      'popup_info_full_width' => $params['popup_info_full_width'],
-      'popup_hit_counter' => $params['popup_hit_counter'],
-      'popup_enable_rate' => $params['popup_enable_rate'],
-      'slideshow_interval' => $params['popup_interval'],
-      'enable_comment_social' => $params['popup_enable_comment'],
-      'enable_image_facebook' => $params['popup_enable_facebook'],
-      'enable_image_twitter' => $params['popup_enable_twitter'],
-      'enable_image_ecommerce' => $params['popup_enable_ecommerce'],
-      'enable_image_pinterest' => $params['popup_enable_pinterest'],
-      'enable_image_tumblr' => $params['popup_enable_tumblr'],
-      'watermark_type' => $params['watermark_type'],
-      'slideshow_effect_duration' => isset($params['popup_effect_duration']) ? $params['popup_effect_duration'] : 1,
-      'current_url' => urlencode($params['current_url']),
-      'popup_enable_email' => $params['popup_enable_email'],
-      'popup_enable_captcha' => $params['popup_enable_captcha'],
-      'comment_moderation' => $params['comment_moderation'],
-      'autohide_lightbox_navigation' => $params['autohide_lightbox_navigation'],
-      'popup_enable_fullsize_image' => $params['popup_enable_fullsize_image'],
-      'popup_enable_download' => $params['popup_enable_download'],
-      'show_image_counts' => $params['show_image_counts'],
-      'enable_loop' => $params['enable_loop'],
-      'enable_addthis' => $params['enable_addthis'],
-      'addthis_profile_id' => $params['addthis_profile_id'],
+      'shortcode_id' => isset($params['id']) ? $params['id'] : 0,
     );
-    if ($params['watermark_type'] != 'none') {
-      $params_array['watermark_link'] = $params['watermark_link'];
-      $params_array['watermark_opacity'] = $params['watermark_opacity'];
-      $params_array['watermark_position'] = $params['watermark_position'];
-    }
-    if ($params['watermark_type'] == 'text') {
-      $params_array['watermark_text'] = $params['watermark_text'];
-      $params_array['watermark_font_size'] = $params['watermark_font_size'];
-      $params_array['watermark_font'] = $params['watermark_font'];
-      $params_array['watermark_color'] = $params['watermark_color'];
-    }
-    elseif ($params['watermark_type'] == 'image') {
-      $params_array['watermark_url'] = $params['watermark_url'];
-      $params_array['watermark_width'] = $params['watermark_width'];
-      $params_array['watermark_height'] = $params['watermark_height'];
-    }
     $params['params_array'] = $params_array;
 
     $params[ 'theme_row' ] = $theme_row;
