@@ -19,9 +19,9 @@ if (nimbus_get_option('contact-toggle') == '1') { ?>
                     if(isset($_POST['submitted'])) { 
                         if(isset($_POST['myname']) && isset($_POST['email'])) {
                             if((trim($_POST['myname']) != "" ) && (trim($_POST['email']) != "" )) { ?>
-                                <p class="bg-success"><?php _e('Thanks for contacting us!', 'wp-simple' ); ?></p>
+                                <p class="bg-success"><?php _e('Täname kirjutamast!', 'wp-simple' ); ?></p>
                             <?php } else { ?>
-                                <p class="bg-danger"><?php _e('Please enter your name and email address.', 'wp-simple' ); ?></p>
+                                <p class="bg-danger"><?php _e('Palun lisa oma nimi ja emaili aadress.', 'wp-simple' ); ?></p>
                             <?php 
                             }
                         }
@@ -81,9 +81,9 @@ if (nimbus_get_option('contact-toggle') == '1') { ?>
                     if(isset($_POST['submitted'])) { 
                         if(isset($_POST['myname']) && isset($_POST['email'])) {
                             if((trim($_POST['myname']) != "" ) && (trim($_POST['email']) != "" )) { ?>
-                                <p class="bg-success"><?php _e('Thanks for contacting us!', 'wp-simple' ); ?></p>
+                                <p class="bg-success"><?php _e('Täname kirjutamast!', 'wp-simple' ); ?></p>
                             <?php } else { ?>
-                                <p class="bg-danger"><?php _e('Please enter your name and email address.', 'wp-simple' ); ?></p>
+                                <p class="bg-danger"><?php _e('Palun lisa oma nimi ja emaili aadress.', 'wp-simple' ); ?></p>
                             <?php 
                             }
                         }
